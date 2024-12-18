@@ -18,6 +18,17 @@ unemployment_rate['Date'] = pd.to_datetime(unemployment_rate['Year'].astype(str)
 imports['Date'] = pd.to_datetime(imports['Year'].astype(str) + imports['Period'].str[1:], format='%Y%m')
 exports['Date'] = pd.to_datetime(exports['Year'].astype(str) + exports['Period'].str[1:], format='%Y%m')
 
+# Add title and overview
+st.title("BLS Dashboard")
+st.markdown(
+    """
+    This dashboard provides insights visually based on data published monthly from the Bureau of Labor Statistics (BLS):
+    
+    - **Total Nonfarm Employment**: Trends in employment levels across various sectors.
+    - **Unemployment Rate**: Historical unemployment rates over time.
+    - **Trade Analysis**: Comparison of imports and exports.
+    """
+)
 
 # Visualization 1: Total Nonfarm Employment over Time
 st.header('Total Nonfarm Employment over Time')
@@ -36,3 +47,15 @@ exports['Type'] = 'Exports'
 trade_data = pd.concat([imports, exports])
 fig3 = px.line(trade_data, x='Date', y='Value', color='Type', title='Comparison of Imports and Exports over Time')
 st.plotly_chart(fig3)
+
+# Display visualizations horizontally
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.plotly_chart(fig1, use_container_width=True)
+
+with col2:
+    st.plotly_chart(fig2, use_container_width=True)
+
+with col3:
+    st.plotly_chart(fig3, use_container_width=True)
