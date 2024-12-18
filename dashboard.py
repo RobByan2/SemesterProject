@@ -11,12 +11,17 @@ total_nonfarm_employment = pd.read_csv('bls_data_files/Total_Nonfarm_Employment.
 unemployment_rate = pd.read_csv('bls_data_files/Unemployment_Rate.csv')
 imports = pd.read_csv('bls_data_files/Imports.csv')
 exports = pd.read_csv('bls_data_files/Exports.csv')
+output_per_hour = pd.read_csv('bls_data_files/output_per_hour.csv')
+nonfarm_business_unit_labor_costs = pd.read_csv('bls_data_files/nonfarm_business_unit_labor_costs.csv')
 
 # Convert 'Year' and 'Period' to datetime
 total_nonfarm_employment['Date'] = pd.to_datetime(total_nonfarm_employment['Year'].astype(str) + total_nonfarm_employment['Period'].str[1:], format='%Y%m')
 unemployment_rate['Date'] = pd.to_datetime(unemployment_rate['Year'].astype(str) + unemployment_rate['Period'].str[1:], format='%Y%m')
 imports['Date'] = pd.to_datetime(imports['Year'].astype(str) + imports['Period'].str[1:], format='%Y%m')
 exports['Date'] = pd.to_datetime(exports['Year'].astype(str) + exports['Period'].str[1:], format='%Y%m')
+output_per_hour['Date'] = pd.to_datetime(output_per_hour['Year'].astype(str) + output_per_hour['Period'].str[1:], format='%Y%m')
+nonfarm_business_unit_labor_costs['Date'] = pd.to_datetime(nonfarm_business_unit_labor_costs['Year'].astype(str) + nonfarm_business_unit_labor_costs['Period'].str[1:], format='%Y%m')
+
 
 # Add title and overview
 st.title("BLS Dashboard")
@@ -27,6 +32,7 @@ st.markdown(
     - **Total Nonfarm Employment**: Trends in employment levels across various sectors.
     - **Unemployment Rate**: Historical unemployment rates over time.
     - **Trade Analysis**: Comparison of imports and exports.
+    - **Productivity and Labor Costs**: A comparison of output per hour and nonfarm business unit labor costs.
     """
 )
 
@@ -41,6 +47,8 @@ filtered_total_nonfarm_employment = total_nonfarm_employment[(total_nonfarm_empl
 filtered_unemployment_rate = unemployment_rate[(unemployment_rate['Date'].dt.year >= start_year) & (unemployment_rate['Date'].dt.year <= end_year)]
 filtered_imports = imports[(imports['Date'].dt.year >= start_year) & (imports['Date'].dt.year <= end_year)]
 filtered_exports = exports[(exports['Date'].dt.year >= start_year) & (exports['Date'].dt.year <= end_year)]
+filtered_output_per_hour = output_per_hour[(output_per_hour['Date'].dt.year >= start_year) & (output_per_hour['Date'].dt.year <= end_year)]
+filtered_nonfarm_business_unit_labor_costs = nonfarm_business_unit_labor_costs[(nonfarm_business_unit_labor_costs['Date'].dt.year >= start_year) & (nonfarm_business_unit_labor_costs['Date'].dt.year <= end_year)]
 
 # Color palette
 color_palette = px.colors.qualitative.Dark24
@@ -75,8 +83,20 @@ fig3 = px.line(
     color_discrete_sequence=[color_palette[2], color_palette[3]]
 )
 
+# Vis 4: Productivity vs. Labor Costs
+fig4 = px.line(
+    pd.concat([
+        filtered_output_per_hour.assign(Measure='Output per Hour'),
+        filtered_nonfarm_business_unit_labor_costs.assign(Measure='Labor Costs')
+    ]),
+    x='Date', y='Value', color='Measure',
+    title='Comparison of Output per Hour and Nonfarm Business Unit Labor Costs',
+    labels={"Value": "Index (2012=100)", "Date": "Date", "Measure": "Measure"},
+    color_discrete_sequence=[color_palette[4], color_palette[5]]
+)
+
 # Display visualizations horizontally
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     st.plotly_chart(fig1, use_container_width=True)
@@ -86,6 +106,9 @@ with col2:
 
 with col3:
     st.plotly_chart(fig3, use_container_width=True)
+
+with col4:
+    st.plotly_chart(fig4, use_container_width=True)
 
 
 # Add custom theme styles
