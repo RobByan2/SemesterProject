@@ -65,11 +65,12 @@ filtered_nonfarm_business_unit_labor_costs['Pct_Change'] = filtered_nonfarm_busi
 color_palette = px.colors.qualitative.Dark24
 
 # Vis 1: Total Nonfarm Employment over Time
-fig1 = px.box(
-    filtered_total_nonfarm_employment,
-    x='Date', y='Value',
-    title='Total Nonfarm Employment Distribution over Time',
-    labels={"Value": "Employment (in thousands)", "Date": "Date"}
+fig1 = px.line(
+    filtered_total_nonfarm_employment, 
+    x='Date', y='Value', 
+    title='Total Nonfarm Employment over Time',
+    labels={"Value": "Employment (in thousands)", "Date": "Date"},
+    color_discrete_sequence=[color_palette[0]]
 )
 
 # Vis 2: Unemployment Rate over Time
