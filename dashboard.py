@@ -28,10 +28,10 @@ st.markdown(
     """
     Provides interactive insights based on the most recent five years of monthly data published by the BLS:
     
-    - **Total Nonfarm Employment**- Trends in employment levels across various sectors.
-    - **Unemployment Rate**- Historical unemployment rates over time.
-    - **Trade Analysis**- Comparison of imports and exports.
-    - **Productivity and Labor Costs**- A comparison of output per hour and nonfarm business unit labor costs.
+    - **Total Nonfarm Employment** - Trends in employment levels across various sectors.
+    - **Unemployment Rate** - Historical unemployment rates over time.
+    - **Trade Analysis** - Comparison of imports and exports.
+    - **Productivity and Labor Costs** - A comparison of output per hour and nonfarm business unit labor costs.
     """
 )
 
