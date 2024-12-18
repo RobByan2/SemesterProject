@@ -84,7 +84,7 @@ fig3 = px.line(
 )
 
 # Vis 4: Productivity vs. Labor Costs (using a grouped bar chart)
-fig4_bar = px.bar(
+fig4 = px.bar(
     pd.concat([ 
         filtered_output_per_hour.assign(Measure='Output per Hour'),
         filtered_nonfarm_business_unit_labor_costs.assign(Measure='Labor Costs')
