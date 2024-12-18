@@ -25,12 +25,17 @@ jobs:
 
     - name: Run data collection script
       run: |
+        set -e  # Stop execution if any command fails
         python bls_data.py
+
+    - name: Check if CSV files exist
+      run: |
+        ls -l bls_data_files/*.csv  
 
     - name: Commit and push changes
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add bls_data/*.csv
+        git add bls_data_files/*.csv
         git diff --cached --exit-code || git commit -m 'Update BLS data'
         git push
