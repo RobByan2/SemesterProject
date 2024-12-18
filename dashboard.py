@@ -83,13 +83,13 @@ fig3 = px.line(
     color_discrete_sequence=[color_palette[2], color_palette[3]]
 )
 
-# Vis 4: Productivity vs. Labor Costs
-fig4 = px.line(
-    pd.concat([
+# Vis 4: Productivity vs. Labor Costs (using a grouped bar chart)
+fig4_bar = px.bar(
+    pd.concat([ 
         filtered_output_per_hour.assign(Measure='Output per Hour'),
         filtered_nonfarm_business_unit_labor_costs.assign(Measure='Labor Costs')
     ]),
-    x='Date', y='Value', color='Measure',
+    x='Date', y='Value', color='Measure', barmode='group',
     title='Comparison of Output per Hour and Nonfarm Business Unit Labor Costs',
     labels={"Value": "Index (2012=100)", "Date": "Date", "Measure": "Measure"},
     color_discrete_sequence=[color_palette[4], color_palette[5]]
