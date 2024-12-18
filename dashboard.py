@@ -50,7 +50,6 @@ filtered_output_per_hour = output_per_hour[(output_per_hour['Date'].dt.year >= s
 filtered_nonfarm_business_unit_labor_costs = nonfarm_business_unit_labor_costs[(nonfarm_business_unit_labor_costs['Date'].dt.year >= start_year) & (nonfarm_business_unit_labor_costs['Date'].dt.year <= end_year)]
 
 
-
 # Merge employment and unemployment datasets for comparison
 merged_data = pd.merge(filtered_total_nonfarm_employment, filtered_unemployment_rate, on='Date', suffixes=('_employment', '_unemployment'))
 
@@ -58,7 +57,6 @@ merged_data = pd.merge(filtered_total_nonfarm_employment, filtered_unemployment_
 # YoY percentage change for Output per Hour and Labor Costs
 filtered_output_per_hour['Pct_Change'] = filtered_output_per_hour['Value'].pct_change() * 100
 filtered_nonfarm_business_unit_labor_costs['Pct_Change'] = filtered_nonfarm_business_unit_labor_costs['Value'].pct_change() * 100
-
 
 
 # Color palette
@@ -82,16 +80,6 @@ fig2 = px.line(
     color_discrete_sequence=[color_palette[1]]
 )
 
-fig = px.line(
-    merged_data, 
-    x='Date', y='Value', color='Type', 
-    title='Total Nonfarm Employment vs. Unemployment Rate over Time',
-    labels={"Value": "Value", "Date": "Date", "Type": "Metrics"},
-    color_discrete_sequence=[color_palette[0], color_palette[1]]
-)
-
-st.plotly_chart(fig, use_container_width=True)
-
 # Vis 3: Comparison of Imports and Exports over Time
 filtered_imports['Type'] = 'Imports'
 filtered_exports['Type'] = 'Exports'
@@ -111,7 +99,7 @@ fig4 = px.bar(
         filtered_nonfarm_business_unit_labor_costs[['Date', 'Pct_Change']].assign(Measure='Labor Costs')
     ]),
     x='Date', y='Pct_Change', color='Measure', barmode='group',
-    title='YoY % Output per Hr and Labor Costs',
+    title='YoY % Change Output per Hr and Labor Costs',
     labels={"Pct_Change": "Percentage Change (%)", "Date": "Date", "Measure": "Measure"},
     color_discrete_sequence=[color_palette[4], color_palette[5]]
 )
@@ -136,7 +124,7 @@ with col2:
     st.plotly_chart(fig2, use_container_width=True)
 
 with col3:
-    st.plotly_chart(fig3, use_container_width=True)
+    st.plotly_chart(fig5, use_container_width=True)
 
 #Second row
 col4, col5 = st.columns(2)
@@ -145,7 +133,7 @@ with col4:
     st.plotly_chart(fig4, use_container_width=True)
 
 with col5:
-    st.plotly_chart(fig5, use_container_width=True)
+    st.plotly_chart(fig3, use_container_width=True)
 
 
 # Add custom theme styles
