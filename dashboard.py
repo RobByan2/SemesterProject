@@ -101,10 +101,18 @@ fig4 = px.bar(
         filtered_nonfarm_business_unit_labor_costs[['Date', 'Pct_Change']].assign(Measure='Labor Costs')
     ]),
     x='Date', y='Pct_Change', color='Measure', barmode='group',
-    title='YoY % Change in Output per Hour \nNonfarm Business Unit Labor Costs',
+    title='YoY % Change in Output per Hour\nand Nonfarm Business Unit Labor Costs',
     labels={"Pct_Change": "Percentage Change (%)", "Date": "Date", "Measure": "Measure"},
     color_discrete_sequence=[color_palette[4], color_palette[5]]
 )
+fig4.update_layout(
+    title={
+        'text': "YoY % Change in Output per Hour\nand Nonfarm Business Unit Labor Costs",  # Break title manually
+        'x': 0.5,
+        'xanchor': 'center',
+        'yanchor': 'top',
+        'font': {'size': 16}
+    }
 
 # Scatter plot
 fig5 = px.scatter(
