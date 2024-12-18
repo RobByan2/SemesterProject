@@ -26,7 +26,7 @@ nonfarm_business_unit_labor_costs['Date'] = pd.to_datetime(nonfarm_business_unit
 st.title("Bureau of Labor Statistics (BLS) Dashboard")
 st.markdown(
     """
-    Provides interactive insights based on the most recent five years of monthly data published by the Bureau of Labor Statistics (BLS):
+    Provides interactive insights based on the most recent five years of monthly data published by the BLS:
     
     - **Total Nonfarm Employment**: Trends in employment levels across various sectors.
     - **Unemployment Rate**: Historical unemployment rates over time.
