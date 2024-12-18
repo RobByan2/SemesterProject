@@ -89,7 +89,7 @@ filtered_trade_data = pd.concat([filtered_imports, filtered_exports])
 fig3 = px.line(
     filtered_trade_data, 
     x='Date', y='Value', color='Type', 
-    title='Comparison of Imports and Exports over Time',
+    title='Imports vs. Exports over Time',
     labels={"Value": "Value (in millions)", "Date": "Date", "Type": "Trade Type"},
     color_discrete_sequence=[color_palette[2], color_palette[3]]
 )
@@ -101,7 +101,7 @@ fig4 = px.bar(
         filtered_nonfarm_business_unit_labor_costs[['Date', 'Pct_Change']].assign(Measure='Labor Costs')
     ]),
     x='Date', y='Pct_Change', color='Measure', barmode='group',
-    title='Year-over-Year Percentage Change in Output per Hour and Nonfarm Business Unit Labor Costs',
+    title='YoY % Change in Output per Hour & Nonfarm Business Unit Labor Costs',
     labels={"Pct_Change": "Percentage Change (%)", "Date": "Date", "Measure": "Measure"},
     color_discrete_sequence=[color_palette[4], color_palette[5]]
 )
