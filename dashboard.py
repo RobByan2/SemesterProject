@@ -108,9 +108,6 @@ fig5 = px.scatter(
     color_discrete_sequence=[color_palette]
 )
 
-# Display the scatter plot
-st.plotly_chart(fig5, use_container_width=True)
-
 # Display visualizations horizontally, first row
 col1, col2, col3 = st.columns(3)
 
