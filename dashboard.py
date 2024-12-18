@@ -113,6 +113,7 @@ fig4.update_layout(
         'yanchor': 'top',
         'font': {'size': 16}
     }
+)
 
 # Scatter plot
 fig5 = px.scatter(
