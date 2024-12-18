@@ -38,7 +38,7 @@ file_names = {
 def collect_data(api_key, api_data):
     headers = {'Content-type': 'application/json'}
     current_year = datetime.now().year
-    start_year = current_year - 5
+    start_year = current_year - 9
     data = json.dumps({
         "seriesid": api_data,
         "startyear": str(start_year),
