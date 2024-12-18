@@ -2,7 +2,7 @@ name: BLS Monthly Data Pull
 
 on:
   schedule:
-    - cron: "55 20 * * *"   # TESTING 
+    - cron: "0 0 1 * *" 
   workflow_dispatch:
 
 jobs:
