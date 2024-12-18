@@ -23,10 +23,10 @@ output_per_hour['Date'] = pd.to_datetime(output_per_hour['Year'].astype(str) + o
 nonfarm_business_unit_labor_costs['Date'] = pd.to_datetime(nonfarm_business_unit_labor_costs['Year'].astype(str) + nonfarm_business_unit_labor_costs['Period'].str[1:], format='%Y%m')
 
 # Add title and overview
-st.title("BLS Dashboard")
+st.title("Bureau of Labor Statistics (BLS) Dashboard")
 st.markdown(
     """
-    This dashboard provides insights visually based on data published monthly from the Bureau of Labor Statistics (BLS):
+    Provides interactive insights based on the most recent five years of monthly data published by the Bureau of Labor Statistics (BLS):
     
     - **Total Nonfarm Employment**: Trends in employment levels across various sectors.
     - **Unemployment Rate**: Historical unemployment rates over time.
@@ -99,7 +99,7 @@ fig4 = px.bar(
         filtered_nonfarm_business_unit_labor_costs[['Date', 'Pct_Change']].assign(Measure='Labor Costs')
     ]),
     x='Date', y='Pct_Change', color='Measure', barmode='group',
-    title='YoY % Change Output per Hr and Labor Costs',
+    title='YoY % Change: Output per Hr and Labor Costs',
     labels={"Pct_Change": "Percentage Change (%)", "Date": "Date", "Measure": "Measure"},
     color_discrete_sequence=[color_palette[4], color_palette[5]]
 )
@@ -109,7 +109,7 @@ fig5 = px.scatter(
     merged_data,
     x='Value_employment',
     y='Value_unemployment',
-    title='Nonfarm Employment vs. Unemployment Rate',
+    title='Employment vs. Unemployment',
     labels={"Value_employment": "Nonfarm Employment (in thousands)", "Value_unemployment": "Unemployment Rate (%)"},
     color_discrete_sequence=[color_palette]
 )
@@ -130,10 +130,10 @@ with col3:
 col4, col5 = st.columns(2)
 
 with col4:
-    st.plotly_chart(fig4, use_container_width=True)
+    st.plotly_chart(fig3, use_container_width=True)
 
 with col5:
-    st.plotly_chart(fig3, use_container_width=True)
+    st.plotly_chart(fig4, use_container_width=True)
 
 
 # Add custom theme styles
