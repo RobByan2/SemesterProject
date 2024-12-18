@@ -107,7 +107,7 @@ st.markdown(
         color: #bb86fc;
     }
     .stPlotlyChart div {
-        background-color: #121212 !important;
+        background-color: transparent !important;
     }
     </style>
     """,
