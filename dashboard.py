@@ -11,8 +11,8 @@ total_nonfarm_employment = pd.read_csv('bls_data_files/Total_Nonfarm_Employment.
 unemployment_rate = pd.read_csv('bls_data_files/Unemployment_Rate.csv')
 imports = pd.read_csv('bls_data_files/Imports.csv')
 exports = pd.read_csv('bls_data_files/Exports.csv')
-output_per_hour = pd.read_csv('bls_data_files/output_per_hour.csv')
-nonfarm_business_unit_labor_costs = pd.read_csv('bls_data_files/nonfarm_business_unit_labor_costs.csv')
+output_per_hour = pd.read_csv('bls_data_files/Output_Per_Hour.csv')
+nonfarm_business_unit_labor_costs = pd.read_csv('bls_data_files/Nonfarm_Business_Unit_Labor_Costs.csv')
 
 # Convert 'Year' and 'Period' to datetime
 total_nonfarm_employment['Date'] = pd.to_datetime(total_nonfarm_employment['Year'].astype(str) + total_nonfarm_employment['Period'].str[1:], format='%Y%m')
