@@ -22,24 +22,6 @@ exports['Date'] = pd.to_datetime(exports['Year'].astype(str) + exports['Period']
 output_per_hour['Date'] = pd.to_datetime(output_per_hour['Year'].astype(str) + output_per_hour['Period'].str[1:], format='%Y%m')
 nonfarm_business_unit_labor_costs['Date'] = pd.to_datetime(nonfarm_business_unit_labor_costs['Year'].astype(str) + nonfarm_business_unit_labor_costs['Period'].str[1:], format='%Y%m')
 
-
-
-
-# Merge employment and unemployment datasets for comparison
-merged_data = pd.merge(filtered_total_nonfarm_employment, filtered_unemployment_rate, on='Date', suffixes=('_employment', '_unemployment'))
-
-
-# YoY percentage change for Output per Hour and Labor Costs
-filtered_output_per_hour['Pct_Change'] = filtered_output_per_hour['Value'].pct_change() * 100
-filtered_nonfarm_business_unit_labor_costs['Pct_Change'] = filtered_nonfarm_business_unit_labor_costs['Value'].pct_change() * 100
-
-
-
-
-
-
-
-
 # Add title and overview
 st.title("BLS Dashboard")
 st.markdown(
@@ -66,6 +48,18 @@ filtered_imports = imports[(imports['Date'].dt.year >= start_year) & (imports['D
 filtered_exports = exports[(exports['Date'].dt.year >= start_year) & (exports['Date'].dt.year <= end_year)]
 filtered_output_per_hour = output_per_hour[(output_per_hour['Date'].dt.year >= start_year) & (output_per_hour['Date'].dt.year <= end_year)]
 filtered_nonfarm_business_unit_labor_costs = nonfarm_business_unit_labor_costs[(nonfarm_business_unit_labor_costs['Date'].dt.year >= start_year) & (nonfarm_business_unit_labor_costs['Date'].dt.year <= end_year)]
+
+
+
+# Merge employment and unemployment datasets for comparison
+merged_data = pd.merge(filtered_total_nonfarm_employment, filtered_unemployment_rate, on='Date', suffixes=('_employment', '_unemployment'))
+
+
+# YoY percentage change for Output per Hour and Labor Costs
+filtered_output_per_hour['Pct_Change'] = filtered_output_per_hour['Value'].pct_change() * 100
+filtered_nonfarm_business_unit_labor_costs['Pct_Change'] = filtered_nonfarm_business_unit_labor_costs['Value'].pct_change() * 100
+
+
 
 # Color palette
 color_palette = px.colors.qualitative.Dark24
