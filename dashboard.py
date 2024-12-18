@@ -27,45 +27,17 @@ imports['Date'] = pd.to_datetime(imports['Year'].astype(str) + imports['Period']
 exports['Date'] = pd.to_datetime(exports['Year'].astype(str) + exports['Period'].str[1:], format='%Y%m')
 
 
-# Sidebar widgets for filtering
-start_year = st.sidebar.slider('Start Year', min_value=total_nonfarm_employment['Date'].dt.year.min(), max_value=total_nonfarm_employment['Date'].dt.year.max(), value=total_nonfarm_employment['Date'].dt.year.min())
-end_year = st.sidebar.slider('End Year', min_value=total_nonfarm_employment['Date'].dt.year.min(), max_value=total_nonfarm_employment['Date'].dt.year.max(), value=total_nonfarm_employment['Date'].dt.year.max())
-
-# Filter data based on selected years
-total_nonfarm_employment = total_nonfarm_employment[(total_nonfarm_employment['Date'].dt.year >= start_year) & (total_nonfarm_employment['Date'].dt.year <= end_year)]
-unemployment_rate = unemployment_rate[(unemployment_rate['Date'].dt.year >= start_year) & (unemployment_rate['Date'].dt.year <= end_year)]
-imports = imports[(imports['Date'].dt.year >= start_year) & (imports['Date'].dt.year <= end_year)]
-exports = exports[(exports['Date'].dt.year >= start_year) & (exports['Date'].dt.year <= end_year)]
-
-#Aggregate unemployment data by quarter & calculate change
-unemployment_rate['Quarter'] = unemployment_rate['Date'].dt.to_period('Q')
-quarterly_unemployment = unemployment_rate.groupby('Quarter').mean().reset_index()
-quarterly_unemployment['QoQ Change'] = quarterly_unemployment['Value'].pct_change() * 100
-
-current_unemployment = quarterly_unemployment.iloc[-1]['Value']
-recent_qoq_change = quarterly_unemployment.iloc[-1]['QoQ Change']
-
-
-# Side-by-side visualizations
-col1, col2 = st.columns(2)
-
-#Viz 1: Unemployment Rate Quarter-over-Quarter Change
-st.header(f'Current Unemployment Rate: {current_unemployment:.2f}%')
-st.subheader(f'Quarter-over-Quarter Change: {recent_qoq_change:.2f}%')
-fig = px.bar(quarterly_unemployment, x='Quarter', y='QoQ Change', title='Quarter-over-Quarter Change in Unemployment Rate')
-st.plotly_chart(fig)
-
-# Viz 3: Unemployment Rate over Time
-st.header('Unemployment Rate over Time')
-fig2 = px.line(unemployment_rate, x='Date', y='Value', title='Unemployment Rate over Time')
-st.plotly_chart(fig2)
-
-# Viz 2: Total Nonfarm Employment over Time
+# Visualization 1: Total Nonfarm Employment over Time
 st.header('Total Nonfarm Employment over Time')
 fig1 = px.line(total_nonfarm_employment, x='Date', y='Value', title='Total Nonfarm Employment over Time')
 st.plotly_chart(fig1)
 
-# Viz 4: Comparison of Imports and Exports over Time
+# Visualization 2: Unemployment Rate over Time
+st.header('Unemployment Rate over Time')
+fig2 = px.line(unemployment_rate, x='Date', y='Value', title='Unemployment Rate over Time')
+st.plotly_chart(fig2)
+
+# Visualization 3: Comparison of Imports and Exports over Time
 st.header('Comparison of Imports and Exports over Time')
 imports['Type'] = 'Imports'
 exports['Type'] = 'Exports'
