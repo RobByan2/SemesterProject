@@ -30,23 +30,50 @@ st.markdown(
     """
 )
 
-# Visualization 1: Total Nonfarm Employment over Time
-#st.header('Total Nonfarm Employment over Time')
-fig1 = px.line(total_nonfarm_employment, x='Date', y='Value', title='Total Nonfarm Employment over Time')
-#st.plotly_chart(fig1)
+# Add sidebar filters
+st.sidebar.header("Filter Data")
+all_years = sorted(total_nonfarm_employment['Date'].dt.year.unique())
+start_year = st.sidebar.selectbox("Start Year", options=all_years, index=0)
+end_year = st.sidebar.selectbox("End Year", options=all_years, index=len(all_years) - 1)
 
-# Visualization 2: Unemployment Rate over Time
-#st.header('Unemployment Rate over Time')
-fig2 = px.line(unemployment_rate, x='Date', y='Value', title='Unemployment Rate over Time')
-#st.plotly_chart(fig2)
+# Filter data based on year range
+filtered_total_nonfarm_employment = total_nonfarm_employment[(total_nonfarm_employment['Date'].dt.year >= start_year) & (total_nonfarm_employment['Date'].dt.year <= end_year)]
+filtered_unemployment_rate = unemployment_rate[(unemployment_rate['Date'].dt.year >= start_year) & (unemployment_rate['Date'].dt.year <= end_year)]
+filtered_imports = imports[(imports['Date'].dt.year >= start_year) & (imports['Date'].dt.year <= end_year)]
+filtered_exports = exports[(exports['Date'].dt.year >= start_year) & (exports['Date'].dt.year <= end_year)]
 
-# Visualization 3: Comparison of Imports and Exports over Time
-#st.header('Comparison of Imports and Exports over Time')
-imports['Type'] = 'Imports'
-exports['Type'] = 'Exports'
-trade_data = pd.concat([imports, exports])
-fig3 = px.line(trade_data, x='Date', y='Value', color='Type', title='Comparison of Imports and Exports over Time')
-#st.plotly_chart(fig3)
+# Color palette
+color_palette = px.colors.qualitative.Dark24
+
+# Vis 1: Total Nonfarm Employment over Time
+fig1 = px.line(
+    filtered_total_nonfarm_employment, 
+    x='Date', y='Value', 
+    title='Total Nonfarm Employment over Time',
+    labels={"Value": "Employment (in thousands)", "Date": "Date"},
+    color_discrete_sequence=[color_palette[0]]
+)
+
+# Vis 2: Unemployment Rate over Time
+fig2 = px.line(
+    filtered_unemployment_rate, 
+    x='Date', y='Value', 
+    title='Unemployment Rate over Time',
+    labels={"Value": "Unemployment Rate (%)", "Date": "Date"},
+    color_discrete_sequence=[color_palette[1]]
+)
+
+# Vis 3: Comparison of Imports and Exports over Time
+filtered_imports['Type'] = 'Imports'
+filtered_exports['Type'] = 'Exports'
+filtered_trade_data = pd.concat([filtered_imports, filtered_exports])
+fig3 = px.line(
+    filtered_trade_data, 
+    x='Date', y='Value', color='Type', 
+    title='Comparison of Imports and Exports over Time',
+    labels={"Value": "Value (in millions)", "Date": "Date", "Type": "Trade Type"},
+    color_discrete_sequence=[color_palette[2], color_palette[3]]
+)
 
 # Display visualizations horizontally
 col1, col2, col3 = st.columns(3)
@@ -59,3 +86,30 @@ with col2:
 
 with col3:
     st.plotly_chart(fig3, use_container_width=True)
+
+
+# Add custom theme styles
+st.markdown(
+    """
+    <style>
+    .css-18e3th9 {
+        background-color: #121212;
+        color: #ffffff;
+    }
+    .css-1d391kg {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 5px;
+        padding: 10px;
+        color: #ffffff;
+    }
+    h1 {
+        color: #bb86fc;
+    }
+    .stPlotlyChart div {
+        background-color: #121212 !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
