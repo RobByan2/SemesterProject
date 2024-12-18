@@ -23,6 +23,23 @@ output_per_hour['Date'] = pd.to_datetime(output_per_hour['Year'].astype(str) + o
 nonfarm_business_unit_labor_costs['Date'] = pd.to_datetime(nonfarm_business_unit_labor_costs['Year'].astype(str) + nonfarm_business_unit_labor_costs['Period'].str[1:], format='%Y%m')
 
 
+
+
+# Merge employment and unemployment datasets for comparison
+merged_data = pd.merge(filtered_total_nonfarm_employment, filtered_unemployment_rate, on='Date', suffixes=('_employment', '_unemployment'))
+
+
+# YoY percentage change for Output per Hour and Labor Costs
+filtered_output_per_hour['Pct_Change'] = filtered_output_per_hour['Value'].pct_change() * 100
+filtered_nonfarm_business_unit_labor_costs['Pct_Change'] = filtered_nonfarm_business_unit_labor_costs['Value'].pct_change() * 100
+
+
+
+
+
+
+
+
 # Add title and overview
 st.title("BLS Dashboard")
 st.markdown(
@@ -86,17 +103,14 @@ fig3 = px.line(
 # Vis 4: Productivity vs. Labor Costs (using a grouped bar chart)
 fig4 = px.bar(
     pd.concat([ 
-        filtered_output_per_hour.assign(Measure='Output per Hour'),
-        filtered_nonfarm_business_unit_labor_costs.assign(Measure='Labor Costs')
+        filtered_output_per_hour[['Date', 'Pct_Change']].assign(Measure='Output per Hour'),
+        filtered_nonfarm_business_unit_labor_costs[['Date', 'Pct_Change']].assign(Measure='Labor Costs')
     ]),
-    x='Date', y='Value', color='Measure', barmode='group',
-    title='Comparison of Output per Hour and Nonfarm Business Unit Labor Costs',
-    labels={"Value": "Index (2012=100)", "Date": "Date", "Measure": "Measure"},
+    x='Date', y='Pct_Change', color='Measure', barmode='group',
+    title='Year-over-Year Percentage Change in Output per Hour and Nonfarm Business Unit Labor Costs',
+    labels={"Pct_Change": "Percentage Change (%)", "Date": "Date", "Measure": "Measure"},
     color_discrete_sequence=[color_palette[4], color_palette[5]]
 )
-
-# Merge the datasets for comparison
-merged_data = pd.merge(filtered_total_nonfarm_employment, filtered_unemployment_rate, on='Date', suffixes=('_employment', '_unemployment'))
 
 # Scatter plot
 fig5 = px.scatter(
