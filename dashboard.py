@@ -95,8 +95,24 @@ fig4 = px.line(
     color_discrete_sequence=[color_palette[4], color_palette[5]]
 )
 
-# Display visualizations horizontally
-col1, col2, col3, col4 = st.columns(4)
+# Merge the datasets for comparison
+merged_data = pd.merge(filtered_total_nonfarm_employment, filtered_unemployment_rate, on='Date', suffixes=('_employment', '_unemployment'))
+
+# Scatter plot
+fig5 = px.scatter(
+    merged_data,
+    x='Value_employment',
+    y='Value_unemployment',
+    title='Nonfarm Employment vs. Unemployment Rate',
+    labels={"Value_employment": "Nonfarm Employment (in thousands)", "Value_unemployment": "Unemployment Rate (%)"},
+    color_discrete_sequence=[color_palette]
+)
+
+# Display the scatter plot
+st.plotly_chart(fig5, use_container_width=True)
+
+# Display visualizations horizontally, first row
+col1, col2, col3 = st.columns(3)
 
 with col1:
     st.plotly_chart(fig1, use_container_width=True)
@@ -107,8 +123,14 @@ with col2:
 with col3:
     st.plotly_chart(fig3, use_container_width=True)
 
+#Second row
+col4, col5 = st.columns(2)
+
 with col4:
     st.plotly_chart(fig4, use_container_width=True)
+
+with col5:
+    st.plotly_chart(fig5, use_container_width=True)
 
 
 # Add custom theme styles
