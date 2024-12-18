@@ -82,6 +82,16 @@ fig2 = px.line(
     color_discrete_sequence=[color_palette[1]]
 )
 
+fig = px.line(
+    merged_data, 
+    x='Date', y='Value', color='Type', 
+    title='Total Nonfarm Employment vs. Unemployment Rate over Time',
+    labels={"Value": "Value", "Date": "Date", "Type": "Metrics"},
+    color_discrete_sequence=[color_palette[0], color_palette[1]]
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
 # Vis 3: Comparison of Imports and Exports over Time
 filtered_imports['Type'] = 'Imports'
 filtered_exports['Type'] = 'Exports'
