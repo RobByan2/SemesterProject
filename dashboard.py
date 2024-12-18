@@ -31,17 +31,17 @@ st.markdown(
 )
 
 # Visualization 1: Total Nonfarm Employment over Time
-st.header('Total Nonfarm Employment over Time')
+#st.header('Total Nonfarm Employment over Time')
 fig1 = px.line(total_nonfarm_employment, x='Date', y='Value', title='Total Nonfarm Employment over Time')
 #st.plotly_chart(fig1)
 
 # Visualization 2: Unemployment Rate over Time
-st.header('Unemployment Rate over Time')
+#st.header('Unemployment Rate over Time')
 fig2 = px.line(unemployment_rate, x='Date', y='Value', title='Unemployment Rate over Time')
 #st.plotly_chart(fig2)
 
 # Visualization 3: Comparison of Imports and Exports over Time
-st.header('Comparison of Imports and Exports over Time')
+#st.header('Comparison of Imports and Exports over Time')
 imports['Type'] = 'Imports'
 exports['Type'] = 'Exports'
 trade_data = pd.concat([imports, exports])
